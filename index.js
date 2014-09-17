@@ -40,7 +40,7 @@ app.get('/', function(req, res){
       for (var i=0, ii=out.items.length;i<ii;i+=1){
         item = out.items[i];
         html += '<p>'+
-                '<a href="/unfluff?uri=' + item.url.replace('www.','m.') + '">' + 
+                '<a href="/heise/unfluff?uri=' + item.url.replace('www.','m.') + '">' + 
                 iconv.convert(item.title) + '</a>' +
                 '<br>' + iconv.convert(item.summary.split('<')[0]) + '</p>';
       }
@@ -62,12 +62,12 @@ app.get('/unfluff', function(req, res){
   request(req.query.uri, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       data = extractor(body, 'de');
-      html += '<p><a href="/">Back</a></p><hr>';
+      html += '<p><a href="javascript:window.history.back()">Back</a></p><hr>';
       html += '<h3>' + data.title + '</h3>';
       html += '<p><a href="'+ req.query.uri +'" target="_blank">' + req.query.uri+ '</a></p>';
       if (data.image != null) {html += '<img style="max-width: 100%;" src="' + data.image  +'"/>';}
       html += '<p>' + data.text + '</p>';
-      html += '<hr><a href="/"><p>Back</p></a>';
+      html += '<hr><a href="javascript:window.history.back()"><p>Back</p></a>';
       res.send(HEAD + html + FOOT); // Print the google web page.
     }
   })  
